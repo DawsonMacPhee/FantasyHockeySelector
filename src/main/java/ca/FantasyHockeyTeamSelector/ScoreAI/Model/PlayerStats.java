@@ -1,5 +1,14 @@
-package ca.FantasyHockeyTeamSelector.ScoreAI;
+package ca.FantasyHockeyTeamSelector.ScoreAI.Model;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class PlayerStats {
     public Long assists;
     public Long blocked;
@@ -17,5 +26,6 @@ public class PlayerStats {
     public String timeOnIce;
     public String timeOnIcePerGame;
 
+    @Builder.Default
     public Long yearStatScore = 0L;
 }

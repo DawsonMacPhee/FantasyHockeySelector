@@ -10,6 +10,10 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 
+import ca.FantasyHockeyTeamSelector.ScoreAI.Model.PlayerStats;
+import ca.FantasyHockeyTeamSelector.ScoreAI.Model.Player;
+import ca.FantasyHockeyTeamSelector.ScoreAI.Utils.ScoreSorter;
+
 public class PlayerScores {
     private ArrayList<Player> c = new ArrayList<Player>();
     private ArrayList<Player> lw = new ArrayList<Player>();
@@ -19,7 +23,8 @@ public class PlayerScores {
 
     public PlayerScores() {
         updateSavedPlayerInfo();
-
+ 
+        // TEMPORARY DEBUGGING PRINTING
         c.sort(new ScoreSorter());
         Collections.reverse(c);
         lw.sort(new ScoreSorter());
@@ -32,28 +37,23 @@ public class PlayerScores {
         System.out.println();
         System.out.println();
         for (int i = 0; i < 10; i++) {
-            System.out.println(c.get(i).name + ": " + c.get(i).statScore);
+            System.out.println(c.get(i).getName() + ": " + c.get(i).getStatScore());
         }
         System.out.println();
         for (int i = 0; i < 10; i++) {
-            System.out.println(lw.get(i).name + ": " + lw.get(i).statScore);
+            System.out.println(lw.get(i).getName() + ": " + lw.get(i).getStatScore());
         }
         System.out.println();
         for (int i = 0; i < 10; i++) {
-            System.out.println(rw.get(i).name + ": " + rw.get(i).statScore);
+            System.out.println(rw.get(i).getName() + ": " + rw.get(i).getStatScore());
         }
         System.out.println();
         for (int i = 0; i < 10; i++) {
-            System.out.println(d.get(i).name + ": " + d.get(i).statScore);
+            System.out.println(d.get(i).getName() + ": " + d.get(i).getStatScore());
         }
     }
 
-    public void updateSavedPlayerInfo() {
-        JSONArray teamArr = getTeams();
-        getPlayers(teamArr);
-    }
-
-    public JSONObject getObjectFromURL(String urlString) {
+    private JSONObject getObjectFromURL(String urlString) {
         JSONObject json = new JSONObject();
 
         try {
@@ -83,6 +83,17 @@ public class PlayerScores {
         }
 
         return json;
+    }
+
+    private int timeToPoints(String pte) {
+        String[] parts = pte.split(":");
+        int output = Integer.parseInt(parts[0]);
+        return output;
+    }
+
+    public void updateSavedPlayerInfo() {
+        JSONArray teamArr = getTeams();
+        getPlayers(teamArr);
     }
 
     public JSONArray getTeams() {
@@ -116,70 +127,78 @@ public class PlayerScores {
         }
     }
 
-    public int timeToPoints(String pte) {
-        String[] parts = pte.split(":");
-        int output = Integer.parseInt(parts[0]);
-        return output;
-    }
+    public void addPlayer(JSONArray rosterArr, 
+                          JSONObject playerJSON, 
+                          JSONObject personalStatsInfo, 
+                          int ind) 
+    {
 
-    public void addPlayer(JSONArray rosterArr, JSONObject playerJSON, JSONObject personalStatsInfo, int ind) {
-        Player player = new Player();
-        player.name = (String) personalStatsInfo.get("fullName");
-        player.id = (Long) personalStatsInfo.get("id");
-        player.position = (String) ((JSONObject) ((JSONObject) rosterArr.get(ind)).get("position")).get("abbreviation");
-        player.age = (Long) personalStatsInfo.get("currentAge");
+        Player player = Player.builder()
+                              .name((String) personalStatsInfo.get("fullName"))
+                              .id((Long) personalStatsInfo.get("id"))
+                              .position((String) ((JSONObject) ((JSONObject) rosterArr.get(ind)).get("position")).get("abbreviation"))
+                              .age((Long) personalStatsInfo.get("currentAge"))
+                              .build();
 
         int highYear = 2021;
         int lowYear = 2020;
 
+        ArrayList<PlayerStats> statsList = new ArrayList<PlayerStats>();   
         for (int i = 0; i < 1; i++) {
             JSONObject playingStats = getObjectFromURL("https://statsapi.web.nhl.com/api/v1/people/" + playerJSON.get("id") + "/stats?stats=statsSingleSeason&season=" + lowYear + "" + highYear + "");
             JSONArray playingStatsInfoArr = (JSONArray) ((JSONObject) ((JSONArray) playingStats.get("stats")).get(0)).get("splits");
             if (playingStatsInfoArr.size() != 0) {
                 JSONObject playingStatsInfo = (JSONObject) ((JSONObject) playingStatsInfoArr.get(0)).get("stat");
 
-                PlayerStats stats = new PlayerStats();
-                stats.assists = (Long) playingStatsInfo.get("assists");
-                stats.blocked = (Long) playingStatsInfo.get("blocked");
-                stats.faceOffPct = (Double) playingStatsInfo.get("faceOffPct");
-                stats.games = (Long) playingStatsInfo.get("games");
-                stats.goals = (Long) playingStatsInfo.get("goals");
-                stats.hits = (Long) playingStatsInfo.get("hits");
-                stats.pim = (Long) playingStatsInfo.get("pim");
-                stats.plusMinus = (Long) playingStatsInfo.get("plusMinus");
-                stats.points = (Long) playingStatsInfo.get("points");
-                stats.powerPlayTimeOnIcePerGame = (String) playingStatsInfo.get("powerPlayTimeOnIcePerGame");
-                stats.shotPct = (Double) playingStatsInfo.get("shotPct");
-                stats.shots = (Long) playingStatsInfo.get("shots");
-                stats.timeOnIcePerGame = (String) playingStatsInfo.get("timeOnIcePerGame");
+                PlayerStats stats = PlayerStats.builder()
+                                               .assists((Long) playingStatsInfo.get("assists"))
+                                               .blocked((Long) playingStatsInfo.get("blocked"))
+                                               .faceOffPct((Double) playingStatsInfo.get("faceOffPct"))
+                                               .games((Long) playingStatsInfo.get("games"))
+                                               .goals((Long) playingStatsInfo.get("goals"))
+                                               .hits((Long) playingStatsInfo.get("hits"))
+                                               .pim((Long) playingStatsInfo.get("pim"))
+                                               .plusMinus((Long) playingStatsInfo.get("plusMinus"))
+                                               .points((Long) playingStatsInfo.get("points"))
+                                               .powerPlayTimeOnIcePerGame((String) playingStatsInfo.get("powerPlayTimeOnIcePerGame"))
+                                               .shotPct((Double) playingStatsInfo.get("shotPct"))
+                                               .shots((Long) playingStatsInfo.get("shots"))
+                                               .timeOnIcePerGame((String) playingStatsInfo.get("timeOnIcePerGame"))
+                                               .build();
 
-                stats.yearStatScore = stats.points * 6 + stats.goals * 4 + stats.assists * 2 + (Long) ((stats.games / 82) * 200);
-                stats.yearStatScore += (Long) Math.round(stats.shots * 0.5) + (Long) Math.round(stats.blocked * 0.5) + stats.hits - (Long) Math.round(stats.pim * 0.5) + stats.plusMinus + timeToPoints(stats.timeOnIcePerGame);
+                Long yearScore = stats.getPoints() * 6 + stats.getGoals() * 4 + stats.getAssists() * 2 + (Long) ((stats.getGames() / 82) * 200) +
+                                    (Long) Math.round(stats.getShots() * 0.5) + (Long) Math.round(stats.getBlocked() * 0.5) + stats.getHits() - 
+                                    (Long) Math.round(stats.getPim() * 0.5) + stats.getPlusMinus() + timeToPoints(stats.getTimeOnIcePerGame());
 
-                if (player.position.equals("C")) {
-                    stats.yearStatScore += stats.faceOffPct.longValue();
+                if (player.getPosition().equals("C")) {
+                    yearScore += stats.getFaceOffPct().longValue();
                 }
 
-                player.stats.add(stats);
+                stats.setYearStatScore(yearScore);
+
+                statsList.add(stats);
             }
 
             highYear -= 1;
             lowYear -= 1;
         }
 
-        // FOR TESTING
-        if (!player.stats.isEmpty()) {
-            player.statScore = player.stats.get(0).yearStatScore;
-            System.out.println(player.name + ": " + player.statScore);
-        }
+        player.setStats(statsList);
 
-        if (player.position.equals("C")) {
+        // FOR TESTING
+        if (!player.getStats().isEmpty()) {
+            player.setStatScore(player.getStats().get(0).getYearStatScore());
+            System.out.println(player.getName() + ": " + player.getStatScore());
+        }
+        //
+
+        if (player.getPosition().equals("C")) {
             c.add(player);
-        } else if (player.position.equals("LW")) {
+        } else if (player.getPosition().equals("LW")) {
             lw.add(player);
-        } else if (player.position.equals("RW")) {
+        } else if (player.getPosition().equals("RW")) {
             rw.add(player);
-        } else if (player.position.equals("D")) {
+        } else if (player.getPosition().equals("D")) {
             d.add(player);
         }
     }
