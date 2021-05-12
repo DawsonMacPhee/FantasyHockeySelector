@@ -1,4 +1,4 @@
-# FantasyHockeySelector
+# Fantasy Hockey Selector
 
 ## Setup and Running
 
