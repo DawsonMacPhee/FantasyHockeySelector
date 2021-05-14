@@ -1,4 +1,6 @@
-package ca.FantasyHockeyTeamSelector.ScoreAI.Model;
+package ca.FantasyHockeyTeamSelector.ScoreAI.Repository;
+
+import java.io.Serializable;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -9,7 +11,9 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PlayerStats {
+public class PlayerStats implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     public Long assists;
     public Long blocked;
     public Double faceOffPct;

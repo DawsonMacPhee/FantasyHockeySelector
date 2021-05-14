@@ -10,47 +10,23 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 
-import ca.FantasyHockeyTeamSelector.ScoreAI.Model.PlayerStats;
-import ca.FantasyHockeyTeamSelector.ScoreAI.Model.Player;
-import ca.FantasyHockeyTeamSelector.ScoreAI.Utils.ScoreSorter;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import ca.FantasyHockeyTeamSelector.ScoreAI.Repository.PlayerStats;
+import ca.FantasyHockeyTeamSelector.ScoreAI.Repository.Player;
+import ca.FantasyHockeyTeamSelector.ScoreAI.Repository.PlayerRepository;
+
+@Service
+@Transactional
 public class PlayerScores {
-    private ArrayList<Player> c = new ArrayList<Player>();
-    private ArrayList<Player> lw = new ArrayList<Player>();
-    private ArrayList<Player> rw = new ArrayList<Player>();
-    private ArrayList<Player> d = new ArrayList<Player>();
-    private ArrayList<Player> g = new ArrayList<Player>();
 
-    public PlayerScores() {
-        updateSavedPlayerInfo();
- 
-        // TEMPORARY DEBUGGING PRINTING
-        c.sort(new ScoreSorter());
-        Collections.reverse(c);
-        lw.sort(new ScoreSorter());
-        Collections.reverse(lw);
-        rw.sort(new ScoreSorter());
-        Collections.reverse(rw);
-        d.sort(new ScoreSorter());
-        Collections.reverse(d);
+    private PlayerRepository playerRepo;
 
-        System.out.println();
-        System.out.println();
-        for (int i = 0; i < 10; i++) {
-            System.out.println(c.get(i).getName() + ": " + c.get(i).getStatScore());
-        }
-        System.out.println();
-        for (int i = 0; i < 10; i++) {
-            System.out.println(lw.get(i).getName() + ": " + lw.get(i).getStatScore());
-        }
-        System.out.println();
-        for (int i = 0; i < 10; i++) {
-            System.out.println(rw.get(i).getName() + ": " + rw.get(i).getStatScore());
-        }
-        System.out.println();
-        for (int i = 0; i < 10; i++) {
-            System.out.println(d.get(i).getName() + ": " + d.get(i).getStatScore());
-        }
+    @Autowired
+    public PlayerScores(PlayerRepository playerRepo) {
+        this.playerRepo = playerRepo;
     }
 
     private JSONObject getObjectFromURL(String urlString) {
@@ -93,7 +69,7 @@ public class PlayerScores {
 
     public void updateSavedPlayerInfo() {
         JSONArray teamArr = getTeams();
-        getPlayers(teamArr);
+        getPlayersOnTeam(teamArr);
     }
 
     public JSONArray getTeams() {
@@ -102,7 +78,7 @@ public class PlayerScores {
         return teamArr;
     }
 
-    public void getPlayers(JSONArray teamArr) {
+    public void getPlayersOnTeam(JSONArray teamArr) {
         for (int i = 0; i < teamArr.size(); i++) {
             JSONObject team = (JSONObject) teamArr.get(i);
             JSONObject rosterJSON = getObjectFromURL("https://statsapi.web.nhl.com/api/v1/teams/" + team.get("id") + "/roster");
@@ -119,15 +95,15 @@ public class PlayerScores {
                 JSONObject personalStatsInfo = (JSONObject) ((JSONArray) personalStats.get("people")).get(0);
 
                 if (!(((String) ((JSONObject) ((JSONObject) rosterArr.get(j)).get("position")).get("abbreviation")).equals("G"))) {
-                    addPlayer(rosterArr, playerJSON, personalStatsInfo, j);
+                    addPlayerToDB(rosterArr, playerJSON, personalStatsInfo, j);
                 } else {
-                    addGoalie();
+                    addGoalieToDB();
                 }
             }
         }
     }
 
-    public void addPlayer(JSONArray rosterArr, 
+    public void addPlayerToDB(JSONArray rosterArr, 
                           JSONObject playerJSON, 
                           JSONObject personalStatsInfo, 
                           int ind) 
@@ -192,18 +168,10 @@ public class PlayerScores {
         }
         //
 
-        if (player.getPosition().equals("C")) {
-            c.add(player);
-        } else if (player.getPosition().equals("LW")) {
-            lw.add(player);
-        } else if (player.getPosition().equals("RW")) {
-            rw.add(player);
-        } else if (player.getPosition().equals("D")) {
-            d.add(player);
-        }
+        playerRepo.save(player);
     }
 
-    public void addGoalie() {
+    public void addGoalieToDB() {
 
     }
 }
