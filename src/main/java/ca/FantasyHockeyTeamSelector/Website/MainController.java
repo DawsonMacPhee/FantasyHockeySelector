@@ -1,4 +1,4 @@
-package ca.FantasyHockeyTeamSelector.WebController;
+package ca.FantasyHockeyTeamSelector.Website;
 
 import ca.FantasyHockeyTeamSelector.ScoreAI.PlayerScores;
 
