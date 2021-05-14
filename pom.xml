@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>ca.FantasyHockeyTeamSelector</groupId>
-	<artifactId>WebController</artifactId>
+	<artifactId>Website</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>WebController</name>
+	<name>FantasyHockeyTeamSelector</name>
 	<description>A web app that selects your fantasy hockey team for you.</description>
 	<properties>
 		<java.version>16</java.version>

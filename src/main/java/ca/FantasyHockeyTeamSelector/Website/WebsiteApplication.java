@@ -1,4 +1,4 @@
-package ca.FantasyHockeyTeamSelector.WebController;
+package ca.FantasyHockeyTeamSelector.Website;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,10 +10,10 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 @EnableJpaRepositories("ca.FantasyHockeyTeamSelector.ScoreAI.Repository")
 @EntityScan("ca.FantasyHockeyTeamSelector.ScoreAI.Repository")
 @ComponentScan("ca.FantasyHockeyTeamSelector")
-public class WebControllerApplication {
+public class WebsiteApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(WebControllerApplication.class, args);
+		SpringApplication.run(WebsiteApplication.class, args);
 	}
 
 }
