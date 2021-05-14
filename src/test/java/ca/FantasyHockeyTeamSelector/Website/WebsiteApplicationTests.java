@@ -1,10 +1,10 @@
-package ca.FantasyHockeyTeamSelector.WebController;
+package ca.FantasyHockeyTeamSelector.Website;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class WebControllerApplicationTests {
+class WebsiteApplicationTests {
 
 	@Test
 	void contextLoads() {
