@@ -1,4 +1,4 @@
-package ca.FantasyHockeyTeamSelector.ScoreAI.Model;
+package ca.FantasyHockeyTeamSelector.ScoreAI.Repository;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
