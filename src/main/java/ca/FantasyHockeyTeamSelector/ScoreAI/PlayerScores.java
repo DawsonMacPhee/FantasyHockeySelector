@@ -69,7 +69,7 @@ public class PlayerScores {
 
     public void updateSavedPlayerInfo() {
         JSONArray teamArr = getTeams();
-        getPlayers(teamArr);
+        getPlayersOnTeam(teamArr);
     }
 
     public JSONArray getTeams() {
@@ -78,7 +78,7 @@ public class PlayerScores {
         return teamArr;
     }
 
-    public void getPlayers(JSONArray teamArr) {
+    public void getPlayersOnTeam(JSONArray teamArr) {
         for (int i = 0; i < teamArr.size(); i++) {
             JSONObject team = (JSONObject) teamArr.get(i);
             JSONObject rosterJSON = getObjectFromURL("https://statsapi.web.nhl.com/api/v1/teams/" + team.get("id") + "/roster");
@@ -95,15 +95,15 @@ public class PlayerScores {
                 JSONObject personalStatsInfo = (JSONObject) ((JSONArray) personalStats.get("people")).get(0);
 
                 if (!(((String) ((JSONObject) ((JSONObject) rosterArr.get(j)).get("position")).get("abbreviation")).equals("G"))) {
-                    addPlayer(rosterArr, playerJSON, personalStatsInfo, j);
+                    addPlayerToDB(rosterArr, playerJSON, personalStatsInfo, j);
                 } else {
-                    addGoalie();
+                    addGoalieToDB();
                 }
             }
         }
     }
 
-    public void addPlayer(JSONArray rosterArr, 
+    public void addPlayerToDB(JSONArray rosterArr, 
                           JSONObject playerJSON, 
                           JSONObject personalStatsInfo, 
                           int ind) 
@@ -171,7 +171,7 @@ public class PlayerScores {
         playerRepo.save(player);
     }
 
-    public void addGoalie() {
+    public void addGoalieToDB() {
 
     }
 }

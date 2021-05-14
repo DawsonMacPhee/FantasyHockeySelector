@@ -8,6 +8,7 @@ import lombok.Data;
 import java.util.ArrayList;
 import javax.persistence.Id;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 
 @Entity
 @Data
@@ -24,5 +25,6 @@ public class Player {
     @Builder.Default
     private Long statScore = 0L;
 
+    @Lob
     private ArrayList<PlayerStats> stats;
 }
