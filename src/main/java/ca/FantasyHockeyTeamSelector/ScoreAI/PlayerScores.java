@@ -10,20 +10,25 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ca.FantasyHockeyTeamSelector.ScoreAI.Repository.PlayerStats;
+import ca.FantasyHockeyTeamSelector.ScoreAI.Repository.GoalieStats;
 import ca.FantasyHockeyTeamSelector.ScoreAI.Utils.PlayerScoresUtils;
 import ca.FantasyHockeyTeamSelector.ScoreAI.Repository.Player;
 import ca.FantasyHockeyTeamSelector.ScoreAI.Repository.PlayerRepository;
+import ca.FantasyHockeyTeamSelector.ScoreAI.Repository.Goalie;
+import ca.FantasyHockeyTeamSelector.ScoreAI.Repository.GoalieRepository;
 
 @Service
 @Transactional
 public class PlayerScores {
 
     private PlayerRepository playerRepo;
+    private GoalieRepository goalieRepo;
     private PlayerScoresUtils utils;
 
     @Autowired
-    public PlayerScores(PlayerRepository playerRepo, PlayerScoresUtils utils) {
+    public PlayerScores(PlayerRepository playerRepo, GoalieRepository goalieRepo, PlayerScoresUtils utils) {
         this.playerRepo = playerRepo;
+        this.goalieRepo = goalieRepo;
         this.utils = utils;
     }
 
@@ -110,41 +115,37 @@ public class PlayerScores {
                               JSONObject personalStatsInfo, 
                               int ind)
     {
-        Player player = Player.builder()
+        Goalie goalie = Goalie.builder()
                               .name((String) personalStatsInfo.get("fullName"))
                               .id((Long) personalStatsInfo.get("id"))
-                              .position((String) ((JSONObject) ((JSONObject) rosterArr.get(ind)).get("position")).get("abbreviation"))
                               .age((Long) personalStatsInfo.get("currentAge"))
                               .build();
 
         int highYear = 2021;
         int lowYear = 2020;
 
-        ArrayList<PlayerStats> statsList = new ArrayList<PlayerStats>();   
+        ArrayList<GoalieStats> statsList = new ArrayList<GoalieStats>();   
         for (int i = 0; i < 1; i++) {
             JSONObject playingStats = utils.getObjectFromURL("https://statsapi.web.nhl.com/api/v1/people/" + playerJSON.get("id") + "/stats?stats=statsSingleSeason&season=" + lowYear + "" + highYear + "");
-            
-            System.out.println("____________________________________________________________");
-            System.out.println(playingStats);
-            /*JSONArray playingStatsInfoArr = (JSONArray) ((JSONObject) ((JSONArray) playingStats.get("stats")).get(0)).get("splits");
+            JSONArray playingStatsInfoArr = (JSONArray) ((JSONObject) ((JSONArray) playingStats.get("stats")).get(0)).get("splits");
             if (playingStatsInfoArr.size() != 0) {
                 JSONObject playingStatsInfo = (JSONObject) ((JSONObject) playingStatsInfoArr.get(0)).get("stat");
-                statsList.add(utils.setPlayerStats(playingStatsInfo, player));
-            }*/
+                statsList.add(utils.setGoalieStats(playingStatsInfo, goalie));
+            }
 
             highYear -= 1;
             lowYear -= 1;
         }
 
-        player.setStats(statsList);
+        goalie.setStats(statsList);
 
         // FOR TESTING
-        if (!player.getStats().isEmpty()) {
-            player.setStatScore(player.getStats().get(0).getYearStatScore());
-            //System.out.println(player.getName() + ": " + player.getStatScore());
+        if (!goalie.getStats().isEmpty()) {
+            goalie.setStatScore(goalie.getStats().get(0).getYearStatScore());
+            //System.out.println(goalie.getName() + ": " + goalie.getStatScore());
         }
         //
 
-        playerRepo.save(player);
+        goalieRepo.save(goalie);
     }
 }

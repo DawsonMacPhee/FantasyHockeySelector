@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import ca.FantasyHockeyTeamSelector.ScoreAI.Repository.PlayerStats;
 import ca.FantasyHockeyTeamSelector.ScoreAI.Repository.Player;
+import ca.FantasyHockeyTeamSelector.ScoreAI.Repository.GoalieStats;
+import ca.FantasyHockeyTeamSelector.ScoreAI.Repository.Goalie;
 
 @Service
 public class PlayerScoresUtils {
@@ -22,7 +24,7 @@ public class PlayerScoresUtils {
         return output;
     }
 
-    public Long calulateInternalScore(PlayerStats stats, Player player) {
+    public Long calulateInternalPlayerScore(PlayerStats stats, Player player) {
         Long yearScore = stats.getPoints() * 6 + stats.getGoals() * 4 + stats.getAssists() * 2 + (Long) ((stats.getGames() / 82) * 200) +
                         (Long) Math.round(stats.getShots() * 0.5) + (Long) Math.round(stats.getBlocked() * 0.5) + stats.getHits() - 
                         (Long) Math.round(stats.getPim() * 0.5) + stats.getPlusMinus() + timeToPoints(stats.getTimeOnIcePerGame());
@@ -32,6 +34,10 @@ public class PlayerScoresUtils {
         }
 
         return yearScore;
+    }
+
+    public Long calulateInternalGoalieScore(GoalieStats stats, Goalie goalie) {
+        return stats.getSaves();
     }
 
     public PlayerStats setPlayerStats(JSONObject playingStatsInfo, Player player) {
@@ -51,7 +57,39 @@ public class PlayerScoresUtils {
                                         .timeOnIcePerGame((String) playingStatsInfo.get("timeOnIcePerGame"))
                                         .build();
     
-        stats.setYearStatScore(calulateInternalScore(stats, player));
+        stats.setYearStatScore(calulateInternalPlayerScore(stats, player));
+
+        return stats;
+    }
+
+    public GoalieStats setGoalieStats(JSONObject playingStatsInfo, Goalie goalie) {
+        GoalieStats stats = GoalieStats.builder()
+                                        .wins((Long) playingStatsInfo.get("wins"))
+                                        .evenStrengthSavePercentage((Double) playingStatsInfo.get("evenStrengthSavePercentage"))
+                                        .shortHandedShots((Long) playingStatsInfo.get("shortHandedShots"))
+                                        .shortHandedSaves((Long) playingStatsInfo.get("shortHandedSaves"))
+                                        .ot((Long) playingStatsInfo.get("ot"))
+                                        .evenSaves((Long) playingStatsInfo.get("evenSaves"))
+                                        .evenShots((Long) playingStatsInfo.get("evenShots"))
+                                        .losses((Long) playingStatsInfo.get("losses"))
+                                        .powerPlaySaves((Long) playingStatsInfo.get("powerPlaySaves"))
+                                        .goalAgainstAverage((Double) playingStatsInfo.get("goalAgainstAverage"))
+                                        .gamesStarted((Long) playingStatsInfo.get("gamesStarted"))
+                                        .timeOnIcePerGame((String) playingStatsInfo.get("timeOnIcePerGame"))
+                                        .shutouts((Long) playingStatsInfo.get("shutouts"))
+                                        .saves((Long) playingStatsInfo.get("saves"))
+                                        .savePercentage((Double) playingStatsInfo.get("savePercentage"))
+                                        .timeOnIce((String) playingStatsInfo.get("timeOnIce"))
+                                        .ties((Long) playingStatsInfo.get("ties"))
+                                        .powerPlayShots((Long) playingStatsInfo.get("powerPlayShots"))
+                                        .powerPlaySavePercentage((Double) playingStatsInfo.get("powerPlaySavePercentage"))
+                                        .games((Long) playingStatsInfo.get("games"))
+                                        .goalsAgainst((Long) playingStatsInfo.get("goalsAgainst"))
+                                        .shortHandedSavePercentage((Double) playingStatsInfo.get("shortHandedSavePercentage"))
+                                        .shotsAgainst((Long) playingStatsInfo.get("shotsAgainst"))
+                                        .build();
+    
+        stats.setYearStatScore(calulateInternalGoalieScore(stats, goalie));
 
         return stats;
     }
