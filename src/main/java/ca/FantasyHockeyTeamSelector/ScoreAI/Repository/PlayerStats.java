@@ -14,22 +14,22 @@ import lombok.Data;
 public class PlayerStats implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    public Long assists;
-    public Long blocked;
-    public Double faceOffPct;
-    public Long games;
-    public Long goals;
-    public Long hits;
-    public Long pim;
-    public Long plusMinus;
-    public Long points;
-    public String powerPlayTimeOnIce;
-    public String powerPlayTimeOnIcePerGame;
-    public Double shotPct;
-    public Long shots;
-    public String timeOnIce;
-    public String timeOnIcePerGame;
+    private Long assists;
+    private Long blocked;
+    private Double faceOffPct;
+    private Long games;
+    private Long goals;
+    private Long hits;
+    private Long pim;
+    private Long plusMinus;
+    private Long points;
+    private String powerPlayTimeOnIce;
+    private String powerPlayTimeOnIcePerGame;
+    private Double shotPct;
+    private Long shots;
+    private String timeOnIce;
+    private String timeOnIcePerGame;
 
     @Builder.Default
-    public Long yearStatScore = 0L;
+    private Long yearStatScore = 0L;
 }

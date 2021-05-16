@@ -18,6 +18,7 @@ import javax.persistence.Lob;
 public class Player {
     @Id
     private String name;
+    
     private Long id;
     private String position;
     private Long age;

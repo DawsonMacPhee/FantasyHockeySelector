@@ -1,11 +1,6 @@
 package ca.FantasyHockeyTeamSelector.ScoreAI;
 
-import java.io.FileWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Scanner;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
@@ -15,100 +10,71 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ca.FantasyHockeyTeamSelector.ScoreAI.Repository.PlayerStats;
+import ca.FantasyHockeyTeamSelector.ScoreAI.Repository.GoalieStats;
+import ca.FantasyHockeyTeamSelector.ScoreAI.Utils.PlayerScoresUtils;
 import ca.FantasyHockeyTeamSelector.ScoreAI.Repository.Player;
 import ca.FantasyHockeyTeamSelector.ScoreAI.Repository.PlayerRepository;
+import ca.FantasyHockeyTeamSelector.ScoreAI.Repository.Goalie;
+import ca.FantasyHockeyTeamSelector.ScoreAI.Repository.GoalieRepository;
 
 @Service
 @Transactional
 public class PlayerScores {
 
     private PlayerRepository playerRepo;
+    private GoalieRepository goalieRepo;
+    private PlayerScoresUtils utils;
 
     @Autowired
-    public PlayerScores(PlayerRepository playerRepo) {
+    public PlayerScores(PlayerRepository playerRepo, GoalieRepository goalieRepo, PlayerScoresUtils utils) {
         this.playerRepo = playerRepo;
-    }
-
-    private JSONObject getObjectFromURL(String urlString) {
-        JSONObject json = new JSONObject();
-
-        try {
-            URL url = new URL(urlString);
-
-            HttpURLConnection connReq = (HttpURLConnection) url.openConnection();
-            connReq.setRequestMethod("GET");
-            connReq.connect();
-
-            int responsecode = connReq.getResponseCode();
-
-            if (responsecode == 200) {
-                String jsonString = "";
-                Scanner scan = new Scanner(url.openStream());
-                while(scan.hasNext()) {
-                    jsonString += scan.nextLine();
-                }
-                scan.close();
-
-                JSONParser parse = new JSONParser();
-                json = (JSONObject) parse.parse(jsonString);
-            } else {
-                System.out.println("FAILURE");
-            }
-        } catch (Exception e) {
-
-        }
-
-        return json;
-    }
-
-    private int timeToPoints(String pte) {
-        String[] parts = pte.split(":");
-        int output = Integer.parseInt(parts[0]);
-        return output;
+        this.goalieRepo = goalieRepo;
+        this.utils = utils;
     }
 
     public void updateSavedPlayerInfo() {
         JSONArray teamArr = getTeams();
-        getPlayersOnTeam(teamArr);
+        getPlayersByTeam(teamArr);
     }
 
     public JSONArray getTeams() {
-        JSONObject teamJSON = getObjectFromURL("https://statsapi.web.nhl.com/api/v1/teams");
+        JSONObject teamJSON = utils.getObjectFromURL("https://statsapi.web.nhl.com/api/v1/teams");
         JSONArray teamArr = (JSONArray) teamJSON.get("teams");
         return teamArr;
     }
 
-    public void getPlayersOnTeam(JSONArray teamArr) {
+    public void getPlayersByTeam(JSONArray teamArr) {
         for (int i = 0; i < teamArr.size(); i++) {
             JSONObject team = (JSONObject) teamArr.get(i);
-            JSONObject rosterJSON = getObjectFromURL("https://statsapi.web.nhl.com/api/v1/teams/" + team.get("id") + "/roster");
+            JSONObject rosterJSON = utils.getObjectFromURL("https://statsapi.web.nhl.com/api/v1/teams/" + team.get("id") + "/roster");
 
             JSONArray rosterArr = (JSONArray) rosterJSON.get("roster");
-            if (rosterArr == null) {
-                return;
+            if (rosterArr != null) {
+                addRosterToDB(rosterArr);
             }
+        }
+    }
 
-            for (int j = 0; j < rosterArr.size(); j++) {
-                JSONObject playerJSON = (JSONObject) ((JSONObject) rosterArr.get(j)).get("person");
-                
-                JSONObject personalStats = getObjectFromURL("https://statsapi.web.nhl.com/api/v1/people/" + playerJSON.get("id"));
-                JSONObject personalStatsInfo = (JSONObject) ((JSONArray) personalStats.get("people")).get(0);
+    public void addRosterToDB(JSONArray rosterArr) {
+        for (int j = 0; j < rosterArr.size(); j++) {
+            JSONObject playerJSON = (JSONObject) ((JSONObject) rosterArr.get(j)).get("person");
+            
+            JSONObject personalStats = utils.getObjectFromURL("https://statsapi.web.nhl.com/api/v1/people/" + playerJSON.get("id"));
+            JSONObject personalStatsInfo = (JSONObject) ((JSONArray) personalStats.get("people")).get(0);
 
-                if (!(((String) ((JSONObject) ((JSONObject) rosterArr.get(j)).get("position")).get("abbreviation")).equals("G"))) {
-                    addPlayerToDB(rosterArr, playerJSON, personalStatsInfo, j);
-                } else {
-                    addGoalieToDB();
-                }
+            if (!(((String) ((JSONObject) ((JSONObject) rosterArr.get(j)).get("position")).get("abbreviation")).equals("G"))) {
+                addPlayerToDB(rosterArr, playerJSON, personalStatsInfo, j);
+            } else {
+                addGoalieToDB(rosterArr, playerJSON, personalStatsInfo, j);
             }
         }
     }
 
     public void addPlayerToDB(JSONArray rosterArr, 
-                          JSONObject playerJSON, 
-                          JSONObject personalStatsInfo, 
-                          int ind) 
+                              JSONObject playerJSON, 
+                              JSONObject personalStatsInfo, 
+                              int ind) 
     {
-
         Player player = Player.builder()
                               .name((String) personalStatsInfo.get("fullName"))
                               .id((Long) personalStatsInfo.get("id"))
@@ -121,38 +87,11 @@ public class PlayerScores {
 
         ArrayList<PlayerStats> statsList = new ArrayList<PlayerStats>();   
         for (int i = 0; i < 1; i++) {
-            JSONObject playingStats = getObjectFromURL("https://statsapi.web.nhl.com/api/v1/people/" + playerJSON.get("id") + "/stats?stats=statsSingleSeason&season=" + lowYear + "" + highYear + "");
+            JSONObject playingStats = utils.getObjectFromURL("https://statsapi.web.nhl.com/api/v1/people/" + playerJSON.get("id") + "/stats?stats=statsSingleSeason&season=" + lowYear + "" + highYear + "");
             JSONArray playingStatsInfoArr = (JSONArray) ((JSONObject) ((JSONArray) playingStats.get("stats")).get(0)).get("splits");
             if (playingStatsInfoArr.size() != 0) {
                 JSONObject playingStatsInfo = (JSONObject) ((JSONObject) playingStatsInfoArr.get(0)).get("stat");
-
-                PlayerStats stats = PlayerStats.builder()
-                                               .assists((Long) playingStatsInfo.get("assists"))
-                                               .blocked((Long) playingStatsInfo.get("blocked"))
-                                               .faceOffPct((Double) playingStatsInfo.get("faceOffPct"))
-                                               .games((Long) playingStatsInfo.get("games"))
-                                               .goals((Long) playingStatsInfo.get("goals"))
-                                               .hits((Long) playingStatsInfo.get("hits"))
-                                               .pim((Long) playingStatsInfo.get("pim"))
-                                               .plusMinus((Long) playingStatsInfo.get("plusMinus"))
-                                               .points((Long) playingStatsInfo.get("points"))
-                                               .powerPlayTimeOnIcePerGame((String) playingStatsInfo.get("powerPlayTimeOnIcePerGame"))
-                                               .shotPct((Double) playingStatsInfo.get("shotPct"))
-                                               .shots((Long) playingStatsInfo.get("shots"))
-                                               .timeOnIcePerGame((String) playingStatsInfo.get("timeOnIcePerGame"))
-                                               .build();
-
-                Long yearScore = stats.getPoints() * 6 + stats.getGoals() * 4 + stats.getAssists() * 2 + (Long) ((stats.getGames() / 82) * 200) +
-                                    (Long) Math.round(stats.getShots() * 0.5) + (Long) Math.round(stats.getBlocked() * 0.5) + stats.getHits() - 
-                                    (Long) Math.round(stats.getPim() * 0.5) + stats.getPlusMinus() + timeToPoints(stats.getTimeOnIcePerGame());
-
-                if (player.getPosition().equals("C")) {
-                    yearScore += stats.getFaceOffPct().longValue();
-                }
-
-                stats.setYearStatScore(yearScore);
-
-                statsList.add(stats);
+                statsList.add(utils.setPlayerStats(playingStatsInfo, player));
             }
 
             highYear -= 1;
@@ -164,14 +103,49 @@ public class PlayerScores {
         // FOR TESTING
         if (!player.getStats().isEmpty()) {
             player.setStatScore(player.getStats().get(0).getYearStatScore());
-            System.out.println(player.getName() + ": " + player.getStatScore());
+            //System.out.println(player.getName() + ": " + player.getStatScore());
         }
         //
 
         playerRepo.save(player);
     }
 
-    public void addGoalieToDB() {
+    public void addGoalieToDB(JSONArray rosterArr, 
+                              JSONObject playerJSON, 
+                              JSONObject personalStatsInfo, 
+                              int ind)
+    {
+        Goalie goalie = Goalie.builder()
+                              .name((String) personalStatsInfo.get("fullName"))
+                              .id((Long) personalStatsInfo.get("id"))
+                              .age((Long) personalStatsInfo.get("currentAge"))
+                              .build();
 
+        int highYear = 2021;
+        int lowYear = 2020;
+
+        ArrayList<GoalieStats> statsList = new ArrayList<GoalieStats>();   
+        for (int i = 0; i < 1; i++) {
+            JSONObject playingStats = utils.getObjectFromURL("https://statsapi.web.nhl.com/api/v1/people/" + playerJSON.get("id") + "/stats?stats=statsSingleSeason&season=" + lowYear + "" + highYear + "");
+            JSONArray playingStatsInfoArr = (JSONArray) ((JSONObject) ((JSONArray) playingStats.get("stats")).get(0)).get("splits");
+            if (playingStatsInfoArr.size() != 0) {
+                JSONObject playingStatsInfo = (JSONObject) ((JSONObject) playingStatsInfoArr.get(0)).get("stat");
+                statsList.add(utils.setGoalieStats(playingStatsInfo, goalie));
+            }
+
+            highYear -= 1;
+            lowYear -= 1;
+        }
+
+        goalie.setStats(statsList);
+
+        // FOR TESTING
+        if (!goalie.getStats().isEmpty()) {
+            goalie.setStatScore(goalie.getStats().get(0).getYearStatScore());
+            //System.out.println(goalie.getName() + ": " + goalie.getStatScore());
+        }
+        //
+
+        goalieRepo.save(goalie);
     }
 }
