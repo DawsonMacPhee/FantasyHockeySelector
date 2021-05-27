@@ -1,6 +1,6 @@
-package ca.FantasyHockeyTeamSelector.Website;
+package ca.fantasyHockeyTeamSelector.website;
 
-import ca.FantasyHockeyTeamSelector.ScoreAI.PlayerScores;
+import ca.fantasyHockeyTeamSelector.scoreAI.PlayerScores;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

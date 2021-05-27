@@ -1,4 +1,4 @@
-package ca.FantasyHockeyTeamSelector.Website;
+package ca.fantasyHockeyTeamSelector.website;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Bean;

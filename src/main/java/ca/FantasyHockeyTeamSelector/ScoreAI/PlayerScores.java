@@ -1,4 +1,4 @@
-package ca.FantasyHockeyTeamSelector.ScoreAI;
+package ca.fantasyHockeyTeamSelector.scoreAI;
 
 import java.util.ArrayList;
 import org.json.simple.JSONObject;
@@ -9,13 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import ca.FantasyHockeyTeamSelector.ScoreAI.Repository.PlayerStats;
-import ca.FantasyHockeyTeamSelector.ScoreAI.Repository.GoalieStats;
-import ca.FantasyHockeyTeamSelector.ScoreAI.Utils.PlayerScoresUtils;
-import ca.FantasyHockeyTeamSelector.ScoreAI.Repository.Player;
-import ca.FantasyHockeyTeamSelector.ScoreAI.Repository.PlayerRepository;
-import ca.FantasyHockeyTeamSelector.ScoreAI.Repository.Goalie;
-import ca.FantasyHockeyTeamSelector.ScoreAI.Repository.GoalieRepository;
+import ca.fantasyHockeyTeamSelector.scoreAI.repository.PlayerStats;
+import ca.fantasyHockeyTeamSelector.scoreAI.repository.GoalieStats;
+import ca.fantasyHockeyTeamSelector.scoreAI.repository.Player;
+import ca.fantasyHockeyTeamSelector.scoreAI.repository.PlayerRepository;
+import ca.fantasyHockeyTeamSelector.scoreAI.repository.Goalie;
+import ca.fantasyHockeyTeamSelector.scoreAI.repository.GoalieRepository;
+import ca.fantasyHockeyTeamSelector.scoreAI.utils.PlayerScoresUtils;
 
 @Service
 @Transactional

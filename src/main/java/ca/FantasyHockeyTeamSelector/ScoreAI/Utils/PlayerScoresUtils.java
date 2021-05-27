@@ -1,4 +1,4 @@
-package ca.FantasyHockeyTeamSelector.ScoreAI.Utils;
+package ca.fantasyHockeyTeamSelector.scoreAI.utils;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -11,10 +11,10 @@ import org.json.simple.parser.JSONParser;
 
 import org.springframework.stereotype.Service;
 
-import ca.FantasyHockeyTeamSelector.ScoreAI.Repository.PlayerStats;
-import ca.FantasyHockeyTeamSelector.ScoreAI.Repository.Player;
-import ca.FantasyHockeyTeamSelector.ScoreAI.Repository.GoalieStats;
-import ca.FantasyHockeyTeamSelector.ScoreAI.Repository.Goalie;
+import ca.fantasyHockeyTeamSelector.scoreAI.repository.PlayerStats;
+import ca.fantasyHockeyTeamSelector.scoreAI.repository.Player;
+import ca.fantasyHockeyTeamSelector.scoreAI.repository.GoalieStats;
+import ca.fantasyHockeyTeamSelector.scoreAI.repository.Goalie;
 
 @Service
 public class PlayerScoresUtils {
