@@ -7,9 +7,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @SpringBootApplication
-@EnableJpaRepositories("ca.fantasyHockeyTeamSelector.scoreAI.repository")
-@EntityScan("ca.fantasyHockeyTeamSelector.scoreAI.repository")
-@ComponentScan("ca.fantasyHockeyTeamSelector")
+@EnableJpaRepositories("ca.FantasyHockeyTeamSelector.ScoreAI.Repository")
+@EntityScan("ca.FantasyHockeyTeamSelector.ScoreAI.Repository")
+@ComponentScan("ca.FantasyHockeyTeamSelector")
 public class WebsiteApplication {
 
 	public static void main(String[] args) {

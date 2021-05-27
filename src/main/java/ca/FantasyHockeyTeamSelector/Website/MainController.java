@@ -20,6 +20,11 @@ public class MainController {
         playerScores.updateSavedPlayerInfo();
     }
 
+    @GetMapping(value = "/")
+    public String index() {
+        return "index";
+    }
+
     @GetMapping(value = "/stats")
     public String stats() {
         return "stats";
