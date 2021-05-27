@@ -10,7 +10,7 @@ public class WebsiteConfig {
     @Bean
     public InternalResourceViewResolver internalResourceViewResolver() {
         InternalResourceViewResolver internalResourceViewResolver = new InternalResourceViewResolver();
-        internalResourceViewResolver.setPrefix("pages/");
+        internalResourceViewResolver.setPrefix("static/");
         internalResourceViewResolver.setSuffix(".html");
         return internalResourceViewResolver;
     }
