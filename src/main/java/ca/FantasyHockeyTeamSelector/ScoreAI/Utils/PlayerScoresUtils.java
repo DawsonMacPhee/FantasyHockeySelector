@@ -1,7 +1,8 @@
-package ca.FantasyHockeyTeamSelector.ScoreAI.Utils;
+package ca.fantasyHockeyTeamSelector.scoreAI.utils;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Optional;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import org.json.simple.JSONObject;
@@ -10,22 +11,26 @@ import org.json.simple.parser.JSONParser;
 
 import org.springframework.stereotype.Service;
 
-import ca.FantasyHockeyTeamSelector.ScoreAI.Repository.PlayerStats;
-import ca.FantasyHockeyTeamSelector.ScoreAI.Repository.Player;
-import ca.FantasyHockeyTeamSelector.ScoreAI.Repository.GoalieStats;
-import ca.FantasyHockeyTeamSelector.ScoreAI.Repository.Goalie;
+import ca.fantasyHockeyTeamSelector.scoreAI.repository.PlayerStats;
+import ca.fantasyHockeyTeamSelector.scoreAI.repository.Player;
+import ca.fantasyHockeyTeamSelector.scoreAI.repository.GoalieStats;
+import ca.fantasyHockeyTeamSelector.scoreAI.repository.Goalie;
 
 @Service
 public class PlayerScoresUtils {
     
     public int timeToPoints(String pte) {
+        if (pte.equals("")) {
+            return 0;
+        }
+
         String[] parts = pte.split(":");
         int output = Integer.parseInt(parts[0]);
         return output;
     }
 
     public Long calulateInternalPlayerScore(PlayerStats stats, Player player) {
-        Long yearScore = stats.getPoints() * 6 + stats.getGoals() * 4 + stats.getAssists() * 2 + (Long) ((stats.getGames() / 82) * 200) +
+        Long yearScore = stats.getPoints() * 6 + stats.getGoals() * 4 + stats.getAssists() * 2 + (Long) Math.round((stats.getGames() / 82.0) * 200.0) +
                         (Long) Math.round(stats.getShots() * 0.5) + (Long) Math.round(stats.getBlocked() * 0.5) + stats.getHits() - 
                         (Long) Math.round(stats.getPim() * 0.5) + stats.getPlusMinus() + timeToPoints(stats.getTimeOnIcePerGame());
     
@@ -37,24 +42,32 @@ public class PlayerScoresUtils {
     }
 
     public Long calulateInternalGoalieScore(GoalieStats stats, Goalie goalie) {
-        return stats.getSaves();
+        Long yearScore = (Long) Math.round((stats.getWins() * stats.getSavePercentage() * stats.getGoalAgainstAverage()) * 6) 
+                         + (Long) Math.round((stats.getSaves() / stats.getGames()) / 3.0)
+                         + stats.getShutouts() * 3 + (Long) Math.round((stats.getEvenStrengthSavePercentage() + stats.getPowerPlaySavePercentage()) * 10.0);
+
+        if (stats.getGames() < 30) {
+            yearScore -= (Long) Math.round((30.0 - stats.getGames()) / 100.0 * yearScore);
+        }
+
+        return yearScore;
     }
 
     public PlayerStats setPlayerStats(JSONObject playingStatsInfo, Player player) {
         PlayerStats stats = PlayerStats.builder()
-                                        .assists((Long) playingStatsInfo.get("assists"))
-                                        .blocked((Long) playingStatsInfo.get("blocked"))
-                                        .faceOffPct((Double) playingStatsInfo.get("faceOffPct"))
-                                        .games((Long) playingStatsInfo.get("games"))
-                                        .goals((Long) playingStatsInfo.get("goals"))
-                                        .hits((Long) playingStatsInfo.get("hits"))
-                                        .pim((Long) playingStatsInfo.get("pim"))
-                                        .plusMinus((Long) playingStatsInfo.get("plusMinus"))
-                                        .points((Long) playingStatsInfo.get("points"))
-                                        .powerPlayTimeOnIcePerGame((String) playingStatsInfo.get("powerPlayTimeOnIcePerGame"))
-                                        .shotPct((Double) playingStatsInfo.get("shotPct"))
-                                        .shots((Long) playingStatsInfo.get("shots"))
-                                        .timeOnIcePerGame((String) playingStatsInfo.get("timeOnIcePerGame"))
+                                        .assists(Optional.ofNullable((Long) playingStatsInfo.get("assists")).orElse(0L))
+                                        .blocked(Optional.ofNullable((Long) playingStatsInfo.get("blocked")).orElse(0L))
+                                        .faceOffPct(Optional.ofNullable((Double) playingStatsInfo.get("faceOffPct")).orElse(0.0))
+                                        .games(Optional.ofNullable((Long) playingStatsInfo.get("games")).orElse(0L))
+                                        .goals(Optional.ofNullable((Long) playingStatsInfo.get("goals")).orElse(0L))
+                                        .hits(Optional.ofNullable((Long) playingStatsInfo.get("hits")).orElse(0L))
+                                        .pim(Optional.ofNullable((Long) playingStatsInfo.get("pim")).orElse(0L))
+                                        .plusMinus(Optional.ofNullable((Long) playingStatsInfo.get("plusMinus")).orElse(0L))
+                                        .points(Optional.ofNullable((Long) playingStatsInfo.get("points")).orElse(0L))
+                                        .powerPlayTimeOnIcePerGame(Optional.ofNullable((String) playingStatsInfo.get("powerPlayTimeOnIcePerGame")).orElse(""))
+                                        .shotPct(Optional.ofNullable((Double) playingStatsInfo.get("shotPct")).orElse(0.0))
+                                        .shots(Optional.ofNullable((Long) playingStatsInfo.get("shots")).orElse(0L))
+                                        .timeOnIcePerGame(Optional.ofNullable((String) playingStatsInfo.get("timeOnIcePerGame")).orElse(""))
                                         .build();
     
         stats.setYearStatScore(calulateInternalPlayerScore(stats, player));
@@ -64,29 +77,20 @@ public class PlayerScoresUtils {
 
     public GoalieStats setGoalieStats(JSONObject playingStatsInfo, Goalie goalie) {
         GoalieStats stats = GoalieStats.builder()
-                                        .wins((Long) playingStatsInfo.get("wins"))
-                                        .evenStrengthSavePercentage((Double) playingStatsInfo.get("evenStrengthSavePercentage"))
-                                        .shortHandedShots((Long) playingStatsInfo.get("shortHandedShots"))
-                                        .shortHandedSaves((Long) playingStatsInfo.get("shortHandedSaves"))
-                                        .ot((Long) playingStatsInfo.get("ot"))
-                                        .evenSaves((Long) playingStatsInfo.get("evenSaves"))
-                                        .evenShots((Long) playingStatsInfo.get("evenShots"))
-                                        .losses((Long) playingStatsInfo.get("losses"))
-                                        .powerPlaySaves((Long) playingStatsInfo.get("powerPlaySaves"))
-                                        .goalAgainstAverage((Double) playingStatsInfo.get("goalAgainstAverage"))
-                                        .gamesStarted((Long) playingStatsInfo.get("gamesStarted"))
-                                        .timeOnIcePerGame((String) playingStatsInfo.get("timeOnIcePerGame"))
-                                        .shutouts((Long) playingStatsInfo.get("shutouts"))
-                                        .saves((Long) playingStatsInfo.get("saves"))
-                                        .savePercentage((Double) playingStatsInfo.get("savePercentage"))
-                                        .timeOnIce((String) playingStatsInfo.get("timeOnIce"))
-                                        .ties((Long) playingStatsInfo.get("ties"))
-                                        .powerPlayShots((Long) playingStatsInfo.get("powerPlayShots"))
-                                        .powerPlaySavePercentage((Double) playingStatsInfo.get("powerPlaySavePercentage"))
-                                        .games((Long) playingStatsInfo.get("games"))
-                                        .goalsAgainst((Long) playingStatsInfo.get("goalsAgainst"))
-                                        .shortHandedSavePercentage((Double) playingStatsInfo.get("shortHandedSavePercentage"))
-                                        .shotsAgainst((Long) playingStatsInfo.get("shotsAgainst"))
+                                        .wins(Optional.ofNullable((Long) playingStatsInfo.get("wins")).orElse(0L))
+                                        .evenStrengthSavePercentage(Optional.ofNullable((Double) playingStatsInfo.get("evenStrengthSavePercentage")).orElse(0.0))
+                                        .losses(Optional.ofNullable((Long) playingStatsInfo.get("losses")).orElse(0L))
+                                        .powerPlaySaves(Optional.ofNullable((Long) playingStatsInfo.get("powerPlaySaves")).orElse(0L))
+                                        .goalAgainstAverage(Optional.ofNullable((Double) playingStatsInfo.get("goalAgainstAverage")).orElse(0.0))
+                                        .gamesStarted(Optional.ofNullable((Long) playingStatsInfo.get("gamesStarted")).orElse(0L))
+                                        .shutouts(Optional.ofNullable((Long) playingStatsInfo.get("shutouts")).orElse(0L))
+                                        .saves(Optional.ofNullable((Long) playingStatsInfo.get("saves")).orElse(0L))
+                                        .savePercentage(Optional.ofNullable((Double) playingStatsInfo.get("savePercentage")).orElse(0.0))
+                                        .powerPlayShots(Optional.ofNullable((Long) playingStatsInfo.get("powerPlayShots")).orElse(0L))
+                                        .powerPlaySavePercentage(Optional.ofNullable((Double) playingStatsInfo.get("powerPlaySavePercentage")).orElse(0.0))
+                                        .games(Optional.ofNullable((Long) playingStatsInfo.get("games")).orElse(0L))
+                                        .goalsAgainst(Optional.ofNullable((Long) playingStatsInfo.get("goalsAgainst")).orElse(0L))
+                                        .shotsAgainst(Optional.ofNullable((Long) playingStatsInfo.get("shotsAgainst")).orElse(0L))
                                         .build();
     
         stats.setYearStatScore(calulateInternalGoalieScore(stats, goalie));
