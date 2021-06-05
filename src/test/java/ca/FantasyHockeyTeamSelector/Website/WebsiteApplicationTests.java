@@ -1,4 +1,4 @@
-package ca.FantasyHockeyTeamSelector.Website;
+package ca.fantasyHockeyTeamSelector.website;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
