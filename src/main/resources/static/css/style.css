@@ -241,10 +241,10 @@ height: 100%;
 }
 
 .logo {
-position: absolute;
-top: 0%;
-left: 50%;
-transform: translate(-50%, 0%);
+  position: absolute;
+  top: 0%;
+  left: 50%;
+  transform: translate(-50%, 0%);
 }
 
 .back_content {
@@ -254,117 +254,131 @@ left: 0;
 }
 
 .button {
-background-color: #ff0000; /* Green */
-border: none;
-color: white;
-padding: 40px;
-text-align: center;
-text-decoration: none;
-display: inline-block;
-font-size: 50px;
-margin: 50px 50px;
-cursor: pointer;
+  background-color: #800020; /* Green */
+  border: none;
+  color: white;
+  padding: 40px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 50px;
+  margin: 50px 50px;
+  cursor: pointer;
 }
 
 .fantasy_button{
-position: absolute;
-top: 60%;
-left: 22.5%;
-transform: translate(-50%, 0%);
-border-radius: 50%;
-width: 17.5%;
-height: 15%;
-transition: all 0.7s;
+  position: absolute;
+  top: 60%;
+  left: 22.5%;
+  transform: translate(-50%, 0%);
+  width: 15%;
+  height: 15%;
+  transition: all 0.7s;
+  border-radius: 25px;
+  padding-left: 0%;
+  padding-right: 0%;
 }
 
 .fantasy_button:hover{
-width: 30%;
-height: 25%;
-transition:all 0.4s ease 0s;
-transform: translate(-50%, -60%);
+  width: 30%;
+  height: 40%;
+  transition:all 0.7s;
+  transform: translate(-50%, -50%);
+  border-radius: 25px;
+}
+
+.fantasy_button:hover .overlay{
+  height: 80%;
+}
+
+.fantasy_button:hover .title_translate{
+  position: relative;
+  transition: align-items 2s ease 0s; /* only transition top property */
+  top: 5%; /* start transitioning from position '0' instead of 'auto' */
+  transition:all 0.7s;
 }
 
 .stats_button{
-position: absolute;
-top: 60%;
-right: 22.5%;
-transform: translate(+50%, 0%);
-width: 15%;
-height: 15%;
-transition: all 0.7s;
-border-radius: 25px;
-padding-left: 0%;
-padding-right: 0%;
-}
+  position: absolute;
+  top: 60%;
+  right: 22.5%;
+  transform: translate(50%, 0%);
+  width: 15%;
+  height: 15%;
+  transition: all 0.7s;
+  border-radius: 25px;
+  padding-left: 0%;
+  padding-right: 0%;
+  }
 
 .stats_button:hover{
-width: 30%;
-height: 40%;
-transition:all 0.7s;
-transform: translate(+50%, -50%);
-border-radius: 25px;
+  width: 30%;
+  height: 40%;
+  transition:all 0.7s;
+  transform: translate(+50%, -50%);
+  border-radius: 25px;
 }
 
 .stats_button:hover .overlay{
-height: 80%;
-}
-
-.relative{
-position: relative;
-width: 100%;
-height: 100%;
-}
-
-.title_translate{
-position: absolute;
-top: 50%;
-left: 50%;
-transform: translate(-50%, -50%);
-transition:all 0.7s;
+  height: 80%;
 }
 
 .stats_button:hover .title_translate{
-position: relative;
-transition: align-items 2s ease 0s; /* only transition top property */
-top: 5%; /* start transitioning from position '0' instead of 'auto' */
-transition:all 0.7s;
+  position: relative;
+  transition: align-items 2s ease 0s; /* only transition top property */
+  top: 5%; /* start transitioning from position '0' instead of 'auto' */
+  transition:all 0.7s;
+}
+
+.relative{
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.title_translate{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition:all 0.7s;
 }
 
 .overlay {
-position: absolute;
-bottom: 0;
-background-color: red;
-overflow: hidden;
-width: 80%;
-height: 0;
-left: 50%;
-transform: translate(-50%, 0%);
-transition:all 0.7s;
-display: flex;
-align-items: center;
-justify-content: center;
+  position: absolute;
+  bottom: 0;
+  background-color: #800020;
+  overflow: hidden;
+  width: 80%;
+  height: 0;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  transition:all 0.7s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 ul {
-height: 100%;
-width: 100%;
+  height: 100%;
+  width: 100%;
 }
 
 li{
-text-align: left;
+  text-align: left;
 }
 
 .list{
-font-size: 1.5rem;
-height: 100%;
+  font-size: 1.5rem;
+  height: 100%;
 }
 
-.spaced {
-height: 100%;
-display: flex;
-flex-direction: column;
-justify-content: space-around;
-margin: 0;
+  .spaced {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin: 0;
 }
 
 /* CSS HEX 
