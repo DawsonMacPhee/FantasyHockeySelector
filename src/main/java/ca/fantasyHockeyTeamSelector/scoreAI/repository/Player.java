@@ -17,9 +17,9 @@ import javax.persistence.Lob;
 @NoArgsConstructor
 public class Player {
     @Id
+    private Long playerId;
+
     private String name;
-    
-    private Long id;
     private String position;
     private Long age;
     
