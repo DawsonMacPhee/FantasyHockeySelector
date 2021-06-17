@@ -17,6 +17,9 @@ import ca.fantasyHockeyTeamSelector.scoreAI.repository.Goalie;
 import ca.fantasyHockeyTeamSelector.scoreAI.repository.GoalieRepository;
 import ca.fantasyHockeyTeamSelector.scoreAI.utils.PlayerScoresUtils;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 @Transactional
 public class PlayerScores {
@@ -77,7 +80,7 @@ public class PlayerScores {
     {
         Player player = Player.builder()
                               .name((String) personalStatsInfo.get("fullName"))
-                              .id((Long) personalStatsInfo.get("id"))
+                              .playerId((Long) personalStatsInfo.get("id"))
                               .position((String) ((JSONObject) ((JSONObject) rosterArr.get(ind)).get("position")).get("abbreviation"))
                               .age((Long) personalStatsInfo.get("currentAge"))
                               .build();
@@ -85,8 +88,8 @@ public class PlayerScores {
         int highYear = 2021;
         int lowYear = 2020;
 
-        ArrayList<PlayerStats> statsList = new ArrayList<PlayerStats>();   
-        for (int i = 0; i < 1; i++) {
+        ArrayList<PlayerStats> statsList = new ArrayList<PlayerStats>();  
+        for (int i = 0; i < 5; i++) {
             JSONObject playingStats = utils.getObjectFromURL("https://statsapi.web.nhl.com/api/v1/people/" + playerJSON.get("id") + "/stats?stats=statsSingleSeason&season=" + lowYear + "" + highYear + "");
             JSONArray playingStatsInfoArr = (JSONArray) ((JSONObject) ((JSONArray) playingStats.get("stats")).get(0)).get("splits");
             if (playingStatsInfoArr.size() != 0) {
@@ -100,12 +103,9 @@ public class PlayerScores {
 
         player.setStats(statsList);
 
-        // FOR TESTING
         if (!player.getStats().isEmpty()) {
-            player.setStatScore(player.getStats().get(0).getYearStatScore());
-            //System.out.println(player.getName() + ": " + player.getStatScore());
+            player.setStatScore(utils.calcPlayerStatScore(statsList, player));
         }
-        //
 
         playerRepo.save(player);
     }
@@ -117,7 +117,7 @@ public class PlayerScores {
     {
         Goalie goalie = Goalie.builder()
                               .name((String) personalStatsInfo.get("fullName"))
-                              .id((Long) personalStatsInfo.get("id"))
+                              .playerId((Long) personalStatsInfo.get("id"))
                               .age((Long) personalStatsInfo.get("currentAge"))
                               .build();
 
@@ -139,12 +139,9 @@ public class PlayerScores {
 
         goalie.setStats(statsList);
 
-        // FOR TESTING
         if (!goalie.getStats().isEmpty()) {
             goalie.setStatScore(goalie.getStats().get(0).getYearStatScore());
-            //System.out.println(goalie.getName() + ": " + goalie.getStatScore());
         }
-        //
 
         goalieRepo.save(goalie);
     }

@@ -42,9 +42,9 @@ public class PlayerScoresUtils {
     }
 
     public Long calulateInternalGoalieScore(GoalieStats stats, Goalie goalie) {
-        Long yearScore = (Long) Math.round((stats.getWins() * stats.getSavePercentage() * stats.getGoalAgainstAverage()) * 6) 
-                         + (Long) Math.round((stats.getSaves() / stats.getGames()) / 3.0)
-                         + stats.getShutouts() * 3 + (Long) Math.round((stats.getEvenStrengthSavePercentage() + stats.getPowerPlaySavePercentage()) * 10.0);
+        Long yearScore = (Long) Math.round(((stats.getWins() / 60.0) * (stats.getSavePercentage() * 200) * (10.0 / stats.getGoalAgainstAverage())) * 5) 
+                         + (Long) Math.round((stats.getSaves() / stats.getGames()) / 30.0)
+                         + stats.getShutouts() * 3 + (Long) Math.round((stats.getEvenStrengthSavePercentage() + stats.getPowerPlaySavePercentage()) * 25.0);
 
         if (stats.getGames() < 30) {
             yearScore -= (Long) Math.round((30.0 - stats.getGames()) / 100.0 * yearScore);
@@ -75,6 +75,32 @@ public class PlayerScoresUtils {
         return stats;
     }
 
+    public Long calcPlayerStatScore(ArrayList<PlayerStats> statsList, Player player) {
+        Long score = statsList.get(0).getYearStatScore();
+        if (statsList.size() == 1) {
+            return score;
+        }
+
+        Double avgShotPct = 0.0;
+        Long avgStatScore = 0L;
+        for (int i = 1; i < statsList.size(); i++) {
+            avgShotPct += statsList.get(i).getShotPct();
+            avgStatScore += statsList.get(i).getYearStatScore();
+        }
+        avgShotPct /= statsList.size() - 1;
+        avgStatScore /= statsList.size() - 1;
+        
+        if (statsList.get(0).getShotPct() - avgShotPct < -0.2) {
+            score += Math.round(score * 0.025);
+        }
+        
+        if (player.getAge() > 31 && statsList.get(0).getYearStatScore() < avgStatScore){
+            score -= Math.round(score * 0.0125 * (player.getAge() - 31));
+        }
+
+        return score;
+    }
+
     public GoalieStats setGoalieStats(JSONObject playingStatsInfo, Goalie goalie) {
         GoalieStats stats = GoalieStats.builder()
                                         .wins(Optional.ofNullable((Long) playingStatsInfo.get("wins")).orElse(0L))
@@ -96,6 +122,10 @@ public class PlayerScoresUtils {
         stats.setYearStatScore(calulateInternalGoalieScore(stats, goalie));
 
         return stats;
+    }
+
+    public Long calcGoalieStatScore(ArrayList<PlayerStats> statsList) {
+        return 0L;
     }
 
     public JSONObject getObjectFromURL(String urlString) {

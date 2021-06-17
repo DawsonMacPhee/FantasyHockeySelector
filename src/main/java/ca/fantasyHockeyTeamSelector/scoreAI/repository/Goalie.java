@@ -17,9 +17,9 @@ import javax.persistence.Lob;
 @NoArgsConstructor
 public class Goalie {
     @Id
-    private String name;
+    private Long playerId;
 
-    private Long id;
+    private String name;
     private Long age;
     
     @Builder.Default
