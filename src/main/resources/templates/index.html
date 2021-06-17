@@ -14,6 +14,7 @@
 
     <!-- for server -->
     <link th:href="@{/css/style.css}" rel="stylesheet" />
+    
 
     <!-- FOR TESTING ONLY -->
     <link rel="stylesheet" type="text/css" href="../static/css/style.css">
@@ -27,8 +28,8 @@
     <div class="row opacity">
             <div class="column center_horizontal" style="background-color:#1f1f1f;">
                 <div class="grid_3x3">
-                    <div class="card">
-                        <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_fullw">
+                    <div  class="card">
+                        <img id="card1" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_fullw">
                         <img src="../static/assets/logos/logo_edm.svg" class="image_upper_right"><br>
                         <p>Score: </p>
                     </div>
@@ -278,6 +279,7 @@
   </div>
     
     <!-- js script import -->
-    <script th:href="@{/js/index.js}"></script>
+    <script type="text/javascript" th:src="@{/js/index.js}"></script>
+    
 </body>
 </html>
