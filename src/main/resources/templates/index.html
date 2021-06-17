@@ -11,154 +11,178 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!-- Custom CSS -->
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
+
+    <!-- for server -->
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+    
+
+    <!-- FOR TESTING ONLY -->
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+
     <!-- Custom CSS End -->
 
 </head>
 
 <body>
-  <div class="title_bar">
-    <h2>Something</h2>
-  </div>
-  <div>
-      <a href="fantasy">
-          <div class="column_left" style="background-color:#1f1f1f;;">
-              <div class="grid_3x3">
-                  <div class="card">
-                      <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_fullw">
-                      <img src="assets/logos/logo_edm.svg" class="image_upper_right"><br>
-                      <p>Score: </p>
-                  </div>
-                  <div class="card">
-                      <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_fullw">
-                      <img src="assets/logos/logo_edm.svg" class="image_upper_right"><br>
-                      <p>Score: </p>
-                  </div>
-                  <div class="card">
-                      <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_fullw">
-                      <img src="assets/logos/logo_edm.svg" class="image_upper_right"><br>
-                      <p>Score: </p>
-                  </div>
-                  <div class="card">
-                      <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_fullw">
-                      <img src="assets/logos/logo_edm.svg" class="image_upper_right"><br>
-                      <p>Score: </p>
-                  </div>
-                  <div class="card">
-                      <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_fullw">
-                      <img src="assets/logos/logo_edm.svg" class="image_upper_right"><br>
-                      <p>Score: </p>
-                  </div>
-                  <div class="card">
-                      <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_fullw">
-                      <img src="assets/logos/logo_edm.svg" class="image_upper_right"><br>
-                      <p>Score: </p>
-                  </div>
-                  <div class="card">
-                      <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_fullw">
-                      <img src="assets/logos/logo_edm.svg" class="image_upper_right"><br>
-                      <p>Score: </p>
-                  </div>
-                  <div class="card">
-                      <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_fullw">
-                      <img src="assets/logos/logo_edm.svg" class="image_upper_right"><br>
-                      <p>Score: </p>
-                  </div>
-                  <div class="card">
-                      <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_fullw">
-                      <img src="assets/logos/logo_edm.svg" class="image_upper_right"><br>
-                      <p>Score: </p>
-                  </div>
-              </div>
-
-              <div class="overlay_left">
-                  <div class="text">Fantasy: Choose the best players for your fantasy league</div>
-              </div>
-          </div>
-      </a>
-  
-      <a href="stats">
-          <div class="column_right" style="background-color:#000000;">
-            <div class="grid_2x2">
-                  <div class="stat_panel">
-                      <h4>Points</h4>
-                      <hr color="white">
-                      <table style="width:100%">
-                          <tr>
-                            <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
-                            <td>105</td>
-                          </tr>
-                          <tr>
-                              <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
-                              <td>105</td>
-                            </tr>
+  <div class="parent">
+    <div class="row opacity">
+            <div class="column center_horizontal" style="background-color:#1f1f1f;">
+                <div class="grid_3x3">
+                    <div  class="card">
+                        <img id="card1" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_fullw">
+                        <img src="../static/assets/logos/logo_edm.svg" class="image_upper_right"><br>
+                        <p>Score: </p>
+                    </div>
+                    <div class="card">
+                        <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_fullw">
+                        <img src="../static/assets/logos/logo_edm.svg" class="image_upper_right"><br>
+                        <p>Score: </p>
+                    </div>
+                    <div class="card">
+                        <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_fullw">
+                        <img src="../static/assets/logos/logo_edm.svg" class="image_upper_right"><br>
+                        <p>Score: </p>
+                    </div>
+                    <div class="card">
+                        <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_fullw">
+                        <img src="../static/assets/logos/logo_edm.svg" class="image_upper_right"><br>
+                        <p>Score: </p>
+                    </div>
+                    <div class="card">
+                        <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_fullw">
+                        <img src="../static/assets/logos/logo_edm.svg" class="image_upper_right"><br>
+                        <p>Score: </p>
+                    </div>
+                    <div class="card">
+                        <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_fullw">
+                        <img src="../static/assets/logos/logo_edm.svg" class="image_upper_right"><br>
+                        <p>Score: </p>
+                    </div>
+                    <div class="card">
+                        <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_fullw">
+                        <img src="../static/assets/logos/logo_edm.svg" class="image_upper_right"><br>
+                        <p>Score: </p>
+                    </div>
+                    <div class="card">
+                        <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_fullw">
+                        <img src="../static/assets/logos/logo_edm.svg" class="image_upper_right"><br>
+                        <p>Score: </p>
+                    </div>
+                    <div class="card">
+                        <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_fullw">
+                        <img src="../static/assets/logos/logo_edm.svg" class="image_upper_right"><br>
+                        <p>Score: </p>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="column center_horizontal" style="background-color:#000000;">
+              <div class="grid_2x2">
+                    <div class="stat_panel">
+                        <h4>Points</h4>
+                        <hr color="white">
+                        <table style="width:100%">
                             <tr>
                               <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
                               <td>105</td>
                             </tr>
                             <tr>
-                              <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
-                              <td>105</td>
-                            </tr>
-                            <tr>
-                              <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
-                              <td>105</td>
-                            </tr>
-                        </table>
-                  </div>
-                  <div class="stat_panel">
-                      <h4>Goals</h4>
-                      <hr color="white">
-                      <table style="width:100%">
-                          <tr>
-                            <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
-                            <td>105</td>
-                          </tr>
-                          <tr>
-                              <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
-                              <td>105</td>
-                            </tr>
-                            <tr>
-                              <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
-                              <td>105</td>
-                            </tr>
-                            <tr>
-                              <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
-                              <td>105</td>
-                            </tr>
-                            <tr>
-                              <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
-                              <td>105</td>
-                            </tr>
-                        </table>
-                  </div>
-                  <div class="stat_panel">
-                      <h4>Assists</h4>
-                      <hr color="white">
-                      <table style="width:100%">
-                          <tr>
-                            <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
-                            <td>105</td>
-                          </tr>
-                          <tr>
-                              <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
-                              <td>105</td>
-                            </tr>
+                                <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
+                                <td>105</td>
+                              </tr>
+                              <tr>
+                                <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
+                                <td>105</td>
+                              </tr>
+                              <tr>
+                                <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
+                                <td>105</td>
+                              </tr>
+                              <tr>
+                                <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
+                                <td>105</td>
+                              </tr>
+                          </table>
+                    </div>
+                    <div class="stat_panel">
+                        <h4>Goals</h4>
+                        <hr color="white">
+                        <table style="width:100%">
                             <tr>
                               <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
                               <td>105</td>
                             </tr>
                             <tr>
-                              <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
-                              <td>105</td>
-                            </tr>
+                                <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
+                                <td>105</td>
+                              </tr>
+                              <tr>
+                                <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
+                                <td>105</td>
+                              </tr>
+                              <tr>
+                                <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
+                                <td>105</td>
+                              </tr>
+                              <tr>
+                                <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
+                                <td>105</td>
+                              </tr>
+                          </table>
+                    </div>
+                    <div class="stat_panel">
+                        <h4>Assists</h4>
+                        <hr color="white">
+                        <table style="width:100%">
                             <tr>
                               <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
                               <td>105</td>
                             </tr>
-                        </table>
-                  </div>
-                  <div class="stat_panel">
+                            <tr>
+                                <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
+                                <td>105</td>
+                              </tr>
+                              <tr>
+                                <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
+                                <td>105</td>
+                              </tr>
+                              <tr>
+                                <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
+                                <td>105</td>
+                              </tr>
+                              <tr>
+                                <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
+                                <td>105</td>
+                              </tr>
+                          </table>
+                    </div>
+                    <div class="stat_panel">
+                        <h4>Time on Ice</h4>
+                        <hr color="white">
+                        <table style="width:100%">
+                            <tr>
+                              <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
+                              <td>105</td>
+                            </tr>
+                            <tr>
+                                <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
+                                <td>105</td>
+                              </tr>
+                              <tr>
+                                <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
+                                <td>105</td>
+                              </tr>
+                              <tr>
+                                <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
+                                <td>105</td>
+                              </tr>
+                              <tr>
+                                <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
+                                <td>105</td>
+                              </tr>
+                          </table>
+                    </div>
+                    <div class="stat_panel">
                       <h4>Time on Ice</h4>
                       <hr color="white">
                       <table style="width:100%">
@@ -185,66 +209,77 @@
                         </table>
                   </div>
                   <div class="stat_panel">
-                      <h4>Save Percentage</h4>
-                      <hr color="white">
-                      <table style="width:100%">
+                    <h4>Time on Ice</h4>
+                    <hr color="white">
+                    <table style="width:100%">
+                        <tr>
+                          <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
+                          <td>105</td>
+                        </tr>
+                        <tr>
+                            <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
+                            <td>105</td>
+                          </tr>
                           <tr>
                             <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
                             <td>105</td>
                           </tr>
                           <tr>
-                              <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
-                              <td>105</td>
-                            </tr>
-                            <tr>
-                              <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
-                              <td>105</td>
-                            </tr>
-                            <tr>
-                              <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
-                              <td>105</td>
-                            </tr>
-                            <tr>
-                              <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
-                              <td>105</td>
-                            </tr>
-                        </table>
-                  </div>
-                  <div class="stat_panel">
-                      <h4>Goals Against Average</h4>
-                      <hr color="white">
-                      <table style="width:100%">
-                          <tr>
                             <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
                             <td>105</td>
                           </tr>
                           <tr>
-                              <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
-                              <td>105</td>
-                            </tr>
-                            <tr>
-                              <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
-                              <td>105</td>
-                            </tr>
-                            <tr>
-                              <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
-                              <td>105</td>
-                            </tr>
-                            <tr>
-                              <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
-                              <td>105</td>
-                            </tr>
-                        </table>
-                  </div>
-            </div>
-            <div class="overlay_right">
-              <div class="text">Stats: Search and view stats of your favorite players</div>
-            </div>
-          </a>
+                            <td> <img src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402@2x.jpg" class="image_table"> Connor McDavid</td>
+                            <td>105</td>
+                          </tr>
+                      </table>
+                </div>
+              </div>
+          </div>
+    </div>
+    <div class="logo"> <img src="../static/assets/logos/logo_edm.svg" class="image_l">  </div>
+    
+    <a href="/fantasy">
+      <button class="fantasy_button button">
+        <div class="relative">
+          <h1 class="title_translate">Fantasy</h1> 
+          <div class="overlay"> 
+            <div class="list">
+              <ul>
+                <li>Search players by name</li>
+                <li>View current category leaders</li>
+                <li>Compare player stats</li>
+                <li>View stats by year</li>
+              </ul>
+            </div> 
+          </div> 
         </div>
+      </button>
+    </a>
+
+    <a href="/stats">
+      <button class="stats_button button">
+        <div class="relative">
+          <h1 class="title_translate">Stats</h1> 
+          <div class="overlay"> 
+            <div class="list">
+              <ul>
+                <li>Search players by name</li>
+                <li>View current category leaders</li>
+                <li>Compare player stats</li>
+                <li>View stats by year</li>
+              </ul>
+            </div> 
+          </div> 
+        </div>
+      </button>
+    </a>
+
+
   </div>
     
     <!-- js script import -->
-    <script src="/js/index.js"></script>
+    <script type="text/javascript" th:src="@{/js/index.js}"></script>
+    
 </body>
 </html>
