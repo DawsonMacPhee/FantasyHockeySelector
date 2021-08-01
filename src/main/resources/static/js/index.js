@@ -81,9 +81,21 @@ leaderList = {
             }
 
 $("document").ready( function () {
-    document.getElementById("card1").src = "https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478401@2x.jpg";
-    addPlayerRanks(playerList);
-    addStatPanel(leaderList);
+    $.getJSON("https://4232e958-09d2-4b3e-8621-7e53ea616367.mock.pstmn.io/stats", function(data) {
+        addStatPanel(data);
+    })
+    .fail(function() {
+        addStatPanel(leaderList);
+        console.log("stats data response failed");
+    });
+
+    $.getJSON("https://4232e958-09d2-4b3e-8621-7e53ea616367.mock.pstmn.io/fantasy", function(data) {
+        addPlayerRanks(data);
+    })
+    .fail(function() { 
+        addPlayerRanks(playerList); 
+        console.log("fantasy data response failed");
+    });
 }); 
 
 /**
