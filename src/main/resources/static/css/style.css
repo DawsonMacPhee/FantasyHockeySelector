@@ -75,7 +75,7 @@ position: relative;
 }
 
 .image_upper_right {
-width: 35%;
+width: 30%;
 position: absolute;
 right: 0;
 top: 0;
@@ -167,6 +167,8 @@ border-radius: 4px;
   text-align: center;
   max-height: 100%;
   max-width: 100%;
+  border-radius: 15px;
+  overflow: hidden;
 }
 
 .row {
@@ -183,7 +185,7 @@ border-radius: 4px;
 .grid_2x2 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 10% 10%;
+  gap: 2.5% 10%;
   grid-auto-rows: auto;
   padding: 2.5% 10%;
   width: 100%;
