@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!-- Custom CSS -->
-    <link th:href="@{/css/style.css}" rel="stylesheet" />
+    <link th:href="@{/css/stats.css}" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <!-- Custom CSS End -->
 
@@ -25,10 +25,34 @@
         <a href="/stats" float="left">Stats</a>
     </div>
     
-    <div class="main">
-        <h1>Stats</h1>
-    </div>
+    <div class="tableFixHead topMargin pTable">
+        <table>
+          <thead>
+            <tr>
+              <th style="min-width: 125px;" >Player</th>
+              <th style="min-width: 150px;" >Season</th>
+              <th style="min-width: 150px;" >Team</th>
+              <th style="min-width: 125px;" >Pos</th>
+              <th style="min-width: 125px;" >GP</th>
+              <th style="min-width: 125px;" >G</th>
+              <th style="min-width: 125px;" >A</th>
+              <th style="min-width: 125px;" >P</th>
+              <th style="min-width: 125px;" >+/-</th>
+              <th style="min-width: 125px;" >PIM</th>
+              <th style="min-width: 125px;" >P/GP</th>
+              <th style="min-width: 125px;" >S</th>
+              <th style="min-width: 125px;" >S%</th>
+              <th style="min-width: 125px;" >TOI/GP</th>
+              <th style="min-width: 125px;" >FOW%</th>
+              <th style="min-width: 125px;" >H</th>
+              <th style="min-width: 125px;" > B</th>
+            </tr>
+          </thead>
+          <tbody id="playerTable">
+          </tbody>
+        </table>
+      </div>
     <!-- js script import -->
-    <script src="/js/index.js"></script>
+    <script src="/js/stats.js"></script>
 </body>
 </html>
