@@ -420,7 +420,7 @@ li{
 /* Just common table stuff. Really. */
 table {
   border-collapse: collapse;
-  width: 100%;
+  width: 100%g;
 }
 
 th,
