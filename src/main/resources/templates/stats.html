@@ -20,38 +20,135 @@
 <body>
     <!-- Navigation Bar-->
     <div class="topnav">
-        <a href="/" float="left"><img src="https://www-league.nhlstatic.com/images/logos/league-dark/133-flat.svg" class="image_xs"></a>
-        <a href="/fantasy" float="left" >Fantasy</a>
-        <a href="/stats" float="left">Stats</a>
+      <a href="/" float="left"><img src="https://www-league.nhlstatic.com/images/logos/league-dark/133-flat.svg" class="image_xs"></a>
+      <a href="/fantasy" float="left" >Fantasy</a>
+      <a href="/stats" float="left">Stats</a>
     </div>
-    
-    <div class="tableFixHead topMargin pTable">
-        <table>
+
+    <div class="topMargin">
+
+      <div class="selectionMenu">
+        <select name="season" id="season">
+        </select>
+  
+        <select name="type" id="type">
+          <option value="regular">Regular Season</option>
+          <option value="playoff">Playoffs</option>
+        </select>
+  
+        <select name="gorp" id="gorp" onchange="gpSelection()">
+          <option value="player">Player</option>
+          <option value="goalie">Goalie</option>
+        </select>
+  
+        <select name="playerPosition" id="playerPosition">
+          <option value="player">C</option>
+          <option value="goalie">LW</option>
+          <option value="goalie">RW</option>
+          <option value="goalie">D</option>
+        </select>
+  
+        <select name="playerStats" id="playerStats">
+          <option value="games">Games</option>
+          <option value="goals">Goals</option>
+          <option value="assists">Assists</option>
+          <option value="points">Points</option>
+          <option value="plusMinus">+/-</option>
+          <option value="pim">PIM</option>
+          <option value="shots">Shots</option>
+          <option value="shotPct">Shooting %</option>
+          <option value="timeOnIcePerGame">TOI/GP</option>
+          <option value="faceOffPct">Faceoff Win %</option>
+          <option value="blocked">Blocks</option>
+          <option value="hits">Hits</option>
+        </select>
+
+        <select name="goalieStats" id="goalieStats">
+          <option value="wins">Wins</option>
+          <option value="evenStrengthSavePercentage">EV Sv%</option>
+          <option value="losses">L</option>
+          <option value="goalAgainstAverage">GAA</option>
+          <option value="gamesStarted">GS</option>
+          <option value="shutouts">SO</option>
+          <option value="saves">Svs</option>
+          <option value="savePercentage">Sv%</option>
+          <option value="powerPlaySaves">PP Svs</option>
+          <option value="powerPlayShots">PPS</option>
+          <option value="powerPlaySavePercentage">PP Sv%</option>
+          <option value="games">GP</option>
+          <option value="goalsAgainst">GA</option>
+          <option value="shotsAgainst">SA</option>
+        </select>
+
+        <select name="order" id="order">
+          <option value="ascending">Low-High</option>
+          <option value="descending">High-Low</option>
+        </select>
+
+        <select name="results" id="results">
+          <option value="50">50 Results</option>
+          <option value="descending">100 Results</option>
+          <option value="descending">200 Results</option>
+          <option value="descending">400 Results</option>
+        </select>
+
+        <button>Get Stats</button>
+      </div>
+
+      <div class="tableFixHead pTable">
+          <table id="playerTable" class="zui-table zui-table-highlight-column">
+            <thead>
+              <tr>
+                <th style="min-width: 125px;" >Player</th>
+                <th style="min-width: 150px;" >Season</th>
+                <th style="min-width: 150px;" >Team</th>
+                <th style="min-width: 125px;" >Pos</th>
+                <th class="sort_header" style="min-width: 125px;" id="gp">GP</th>
+                <th class="sort_header" style="min-width: 125px;" id="g">G</th>
+                <th class="sort_header" style="min-width: 125px;" id="a">A</th>
+                <th class="sort_header" style="min-width: 125px;" id="p">P</th>
+                <th class="sort_header" style="min-width: 125px;" id="pm">+/-</th>
+                <th class="sort_header" style="min-width: 125px;" id="pim">PIM</th>
+                <th class="sort_header" style="min-width: 125px;" id="pgp">P/GP</th>
+                <th class="sort_header" style="min-width: 125px;" id="s">S</th>
+                <th class="sort_header" style="min-width: 125px;" id="sp">S%</th>
+                <th class="sort_header" style="min-width: 125px;" id="toi">TOI/GP</th>
+                <th class="sort_header" style="min-width: 125px;" id="fow">FOW%</th>
+                <th class="sort_header" style="min-width: 125px;" id="h">H</th>
+                <th class="sort_header" style="min-width: 125px;" id="b">B</th>
+              </tr>
+            </thead>
+            <tbody id="playerTableBody">
+            </tbody>
+          </table>
+      </div>
+
+      <div class="tableFixHead pTable">
+        <table id="goalieTable">
           <thead>
             <tr>
               <th style="min-width: 125px;" >Player</th>
               <th style="min-width: 150px;" >Season</th>
               <th style="min-width: 150px;" >Team</th>
-              <th style="min-width: 125px;" >Pos</th>
-              <th style="min-width: 125px;" >GP</th>
-              <th style="min-width: 125px;" >G</th>
-              <th style="min-width: 125px;" >A</th>
-              <th style="min-width: 125px;" >P</th>
-              <th style="min-width: 125px;" >+/-</th>
-              <th style="min-width: 125px;" >PIM</th>
-              <th style="min-width: 125px;" >P/GP</th>
-              <th style="min-width: 125px;" >S</th>
-              <th style="min-width: 125px;" >S%</th>
-              <th style="min-width: 125px;" >TOI/GP</th>
-              <th style="min-width: 125px;" >FOW%</th>
-              <th style="min-width: 125px;" >H</th>
-              <th style="min-width: 125px;" > B</th>
+              <th class="sort_header" style="min-width: 125px;" >GP</th>
+              <th class="sort_header" style="min-width: 125px;" >GS</th>
+              <th class="sort_header" style="min-width: 125px;" >W</th>
+              <th class="sort_header" style="min-width: 125px;" >L</th>
+              <th class="sort_header" style="min-width: 125px;" >SA</th>
+              <th class="sort_header" style="min-width: 125px;" >GA</th>
+              <th class="sort_header" style="min-width: 125px;" >Sv%</th>
+              <th class="sort_header" style="min-width: 125px;" >GAA</th>
+              <th class="sort_header" style="min-width: 125px;" >SO</th>
+              <th class="sort_header" style="min-width: 125px;" >EVSv%</th>
+              <th class="sort_header" style="min-width: 125px;" >SHSv%</th>
             </tr>
           </thead>
-          <tbody id="playerTable">
+          <tbody id="goalieTableBody">
           </tbody>
         </table>
       </div>
+    </div>
+
     <!-- js script import -->
     <script src="/js/stats.js"></script>
 </body>
