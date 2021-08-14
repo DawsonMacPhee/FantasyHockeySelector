@@ -9,7 +9,7 @@ landingPageFailInfo =  {
         {"rank":6, "firstName":"Patrick", "lastName":"Kane", "playerId":8474141, "team":"chi"},
         {"rank":7, "firstName":"Auston", "lastName":"Matthews", "playerId":8479318, "team":"tor"},
         {"rank":8, "firstName":"Nathan", "lastName":"MacKinnon", "playerId":8477492, "team":"col"},
-        {"rank":9, "firstName":"Mark", "lastName":"Scheifele", "playerId":8476460, "team":"win"}
+        {"rank":9, "firstName":"Mark", "lastName":"Scheifele", "playerId":8476460, "team":"wpg"}
         ],
         "points":[
             {"statVal":"105", "firstName":"Connor", "lastName":"McDavid", "playerId":8478402},
@@ -81,6 +81,7 @@ landingPageFailInfo =  {
 
 $("document").ready( function () {
     $.getJSON("https://4232e958-09d2-4b3e-8621-7e53ea616367.mock.pstmn.io/landing", function(data) {
+        console.log(JSON.stringify(data));
         addStatPanel(data);
         addPlayerRanks(data);
     })
