@@ -11,8 +11,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!-- Custom CSS -->
-    <link th:href="@{/css/style.css}" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link th:href="@{/css/fantasy.css}" rel="stylesheet" />
     <!-- Custom CSS End -->
 
 </head>
@@ -24,10 +23,62 @@
         <a href="/fantasy" float="left" >Fantasy</a>
         <a href="/stats" float="left">Stats</a>
     </div>
-    
-    <div class="main">
-        <h1>Fantasy</h1>
+
+    <div class="topMargin">
+        <div class="center ">
+            <div class="cardView">
+                <div class="center_horizontal full_width">
+                    <h4>Position:&nbsp</h4>
+                    <select name="playerPosition" id="playerPosition">
+                        <option value="all">All Skaters</option>
+                        <option value="c">C</option>
+                        <option value="lw">LW</option>
+                        <option value="rw">RW</option>
+                        <option value="d">D</option>
+                        <option value="g">G</option>
+                      </select>
+                </div>
+                <div id="selection_menu" class="full_width center">
+                    <div  class="card" id="forward">
+                        <img id="" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402.jpg" class="image_fullw">
+                        <img src="" class="image_upper_right"><br>
+                        <h4>something</h4>
+                    </div>
+                </div>
+                <div class="button-margin">
+                    <div class="full_width">
+                        <button class="left">Select</button>
+                        <button class="right">Skip</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bottom center">
+            <div class="table-container vertical-center">
+                <table>
+                    <tr>
+                      <td><img id="" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402.jpg" ></td>
+                      <td><img id="" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402.jpg" ></td>
+                      <td><img id="" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402.jpg" ></td>
+                      <td><img id="" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402.jpg" ></td>
+                      <td><img id="" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402.jpg" ></td>
+                      <td><img id="" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402.jpg" ></td>
+                      <td><img id="" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402.jpg" ></td>
+                      <td><img id="" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402.jpg" ></td>
+                      <td><img id="" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402.jpg" ></td>
+                      <td><img id="" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402.jpg" ></td>
+                      <td><img id="" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402.jpg" ></td>
+                      <td><img id="" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402.jpg" ></td>
+                      <td><img id="" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402.jpg" ></td>
+                      <td><img id="" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402.jpg" ></td>
+                      <td><img id="" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402.jpg" ></td>
+                      <td><img id="" src="https://cms.nhl.bamgrid.com/images/headshots/current/168x168/8478402.jpg" ></td>  
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
+    
     <!-- js script import -->
     <script src="js/index.js"></script>
 </body>

@@ -1607,6 +1607,7 @@ function playerStatTable(leaderList) {
 */
 function goalieStatTable(leaderList) {
     element = "goalieTableBody";
+    
     var parent = document.getElementById(element);
     while(parent.hasChildNodes())
     {
